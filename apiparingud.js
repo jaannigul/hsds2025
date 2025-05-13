@@ -98,15 +98,15 @@ async function handleFormSubmit(event) {
 }
 
 async function listiraamatud() {
-    const response = await getDataAsJson("http://localhost:5000/raamatud/");
+    const response = await getDataAsJson("https://raamatuapi-cpfsh0bxdcbrh0f4.northeurope-01.azurewebsites.net/raamatud/");
     const resultElement = document.getElementById("raamatud_result");
     resultElement.innerHTML = "";
 
     for (const nimi of response.raamatud) {
         const id = nimi.endsWith(".txt") ? nimi.split(".")[0] : nimi;
         resultElement.innerHTML +=
-            `<a href="http://localhost:5000/raamatud/${id}" download="${id}.txt">${id}.txt</a> ` +
-            `<a href="#" onclick="deleteObject('http://localhost:5000/raamatud/${id}')">[kustuta]</a><br/>`;
+            `<a href="https://raamatuapi-cpfsh0bxdcbrh0f4.northeurope-01.azurewebsites.net/raamatud/${id}" download="${id}.txt">${id}.txt</a> ` +
+            `<a href="#" onclick="deleteObject('https://raamatuapi-cpfsh0bxdcbrh0f4.northeurope-01.azurewebsites.net/raamatud/${id}')">[kustuta]</a><br/>`;
     }
 }
 
