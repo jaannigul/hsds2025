@@ -8,7 +8,7 @@ import re
 from flask_cors import CORS
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/raamatud/*": {"origins": "*"}, r"/raamatu_otsing/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/raamatud/*": {"origins": "https://nice-sky-037e79910.6.azurestaticapps.net"}, r"/raamatu_otsing/*": {"origins": "https://nice-sky-037e79910.6.azurestaticapps.net"}})
 # Kaust, kuhu see programm hakkab raamatute faile salvestama.
 # Raamatute nimed peaksid olema formaadis:  Gutenberg_ID.txt : Näiteks "12345.txt"
 raamatute_kaust = "./raamatud"
@@ -48,7 +48,7 @@ def raamatust_sone_otsimine(raamatu_id):
     try:
         content = blob_alla_laadimine(f"{raamatu_id}.txt")
     except Exception:
-        return {}, 404
+        return {'error': 'Viga raamatu allalaadimisel'}, 404
 
     total_found = otsi_sone_parem(content, sone)
     return {
@@ -60,6 +60,7 @@ def raamatust_sone_otsimine(raamatu_id):
 @app.route("/raamatu_otsing/", methods=["POST"])
 def otsi_sone_raamatutes():
     input_data = request.get_json(force=True)
+
     sone = input_data.get("sone")
     if not sone:
         return {"error": "Puudub võti 'sone'"}, 400
