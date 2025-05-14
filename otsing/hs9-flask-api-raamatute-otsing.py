@@ -38,24 +38,7 @@ def otsi_sone_parem(tekst, sone):
     pattern = re.compile(rf"\b{re.escape(sone)}\b", flags=re.IGNORECASE)
     return len(pattern.findall(tekst))
 
-@app.route("/raamatu_otsing/<int:raamatu_id>", methods=["POST"])
-def raamatust_sone_otsimine(raamatu_id):
-    input_data = request.get_json(force=True)
-    sone = input_data.get("sone")
-    if not sone:
-        return {"error": "Puudub võti 'sone'"}, 400
 
-    try:
-        content = blob_alla_laadimine(f"{raamatu_id}.txt")
-    except Exception:
-        return {'error': 'Viga raamatu allalaadimisel'}, 404
-
-    total_found = otsi_sone_parem(content, sone)
-    return {
-        "raamatu_id": raamatu_id,
-        "sone": sone,
-        "leitud": total_found
-    }, 200
 
 @app.route("/raamatu_otsing/", methods=["POST"])
 def otsi_sone_raamatutes():
